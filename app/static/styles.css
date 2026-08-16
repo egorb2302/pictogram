@@ -1,0 +1,466 @@
+/*
+ * Pictogram — четыре контактных отпечатка в проявочной кювете.
+ *
+ * Тёмная петроль — стол под безопасным светом, костяные картонные паспарту,
+ * белое окно отпечатка, янтарь только на выбранном и на действии с ним.
+ */
+
+:root {
+    --ground: #12313a;
+    --ground-deep: #0c2229;
+    --rule: #24505a;
+
+    --bone: #ece6d7;
+    --bone-dim: #9db0b3;
+
+    --mount: #e4ddcb;
+    --mount-lit: #efe9d9;
+    --well: #ffffff;
+    --ink: #14211f;
+    --ink-soft: #4e564f;
+
+    --signal: #e8a233;
+    --signal-deep: #c9861d;
+    --alert: #d4593c;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--ground);
+    /* Безопасный свет над кюветой */
+    background-image: radial-gradient(
+        ellipse 70% 55% at 50% 42%,
+        rgba(232, 162, 51, 0.09),
+        transparent 70%
+    );
+    color: var(--bone);
+    font-family: "Archivo", system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+    outline: 2px solid var(--signal);
+    outline-offset: 3px;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+/* ── Верхняя планка ─────────────────────────────────────────── */
+
+.bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.85rem clamp(1rem, 3vw, 1.75rem);
+    border-bottom: 1px solid var(--rule);
+    background: var(--ground-deep);
+}
+
+.wordmark {
+    font-weight: 800;
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
+    font-variation-settings: "wdth" 125;
+    color: var(--bone);
+}
+
+.bar__note {
+    font-family: "Martian Mono", ui-monospace, monospace;
+    font-size: 0.6875rem;
+    color: var(--bone-dim);
+}
+
+/* ── Полотно ────────────────────────────────────────────────── */
+
+.stage {
+    flex: 1;
+    width: min(1080px, 100%);
+    margin-inline: auto;
+    padding: clamp(1.25rem, 2.6vw, 2rem) clamp(1rem, 3vw, 1.75rem) clamp(1.25rem, 2vw, 1.5rem);
+    display: flex;
+    flex-direction: column;
+    /* Кювета и строка выбора должны помещаться на экран ноутбука без прокрутки */
+    gap: clamp(1.25rem, 2.2vw, 1.75rem);
+}
+
+/* ── Приём имени ────────────────────────────────────────────── */
+
+.intake__title {
+    margin: 0;
+    font-size: clamp(2rem, 5.2vw, 3.4rem);
+    line-height: 1.03;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    font-variation-settings: "wdth" 108;
+}
+
+/* Ширина начертания несёт акцент вместо второй гарнитуры */
+.intake__title em {
+    font-style: normal;
+    color: var(--signal);
+    font-variation-settings: "wdth" 125;
+}
+
+.intake__form {
+    margin-top: clamp(1rem, 2vw, 1.5rem);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 0.75rem;
+}
+
+.field {
+    flex: 1 1 18rem;
+    min-width: 0;
+}
+
+.field__label {
+    display: block;
+    margin-bottom: 0.45rem;
+    font-family: "Martian Mono", ui-monospace, monospace;
+    font-size: 0.6875rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--bone-dim);
+}
+
+.field__input {
+    width: 100%;
+    height: 3rem;
+    padding: 0 0.9rem;
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    background: var(--ground-deep);
+    color: var(--bone);
+    font-family: "Martian Mono", ui-monospace, monospace;
+    font-size: 0.9rem;
+    transition:
+        border-color 0.15s ease,
+        background-color 0.15s ease;
+}
+
+.field__input::placeholder {
+    color: var(--bone-dim);
+}
+
+.field__input:hover {
+    border-color: var(--bone-dim);
+}
+
+.field__input:focus {
+    outline: none;
+    border-color: var(--signal);
+    background: #0a1d22;
+}
+
+.intake__hint {
+    margin: 0.75rem 0 0;
+    font-size: 0.875rem;
+    color: var(--bone-dim);
+}
+
+/* ── Кнопки ─────────────────────────────────────────────────── */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 3rem;
+    padding-inline: 1.4rem;
+    border: 0;
+    border-radius: 2px;
+    font-family: "Martian Mono", ui-monospace, monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition:
+        background-color 0.15s ease,
+        color 0.15s ease;
+}
+
+.btn:disabled {
+    cursor: not-allowed;
+}
+
+.btn--key {
+    background: var(--bone);
+    color: var(--ink);
+}
+
+.btn--key:hover {
+    background: #fbf7ee;
+}
+
+.btn--key:disabled {
+    background: var(--rule);
+    color: var(--bone-dim);
+}
+
+.btn--signal {
+    background: var(--signal);
+    color: var(--ink);
+}
+
+.btn--signal:hover {
+    background: var(--signal-deep);
+}
+
+.btn--signal:disabled {
+    background: transparent;
+    border: 1px solid var(--rule);
+    color: var(--bone-dim);
+}
+
+/* ── Кювета с отпечатками ───────────────────────────────────── */
+
+.tray {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: clamp(0.7rem, 1.6vw, 1.15rem);
+}
+
+.plate {
+    position: relative;
+    display: block;
+    padding: 0.5rem 0.5rem 0;
+    border-radius: 3px;
+    background: var(--mount);
+    cursor: pointer;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.35),
+        0 6px 18px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.15s ease;
+}
+
+/*
+ * Проявка навешивается классом, а не лежит в исходном состоянии карточки.
+ * Скрывать содержимое по умолчанию нельзя: вкладка, открытая в фоне, не
+ * проигрывает анимацию, и кювета осталась бы пустой.
+ */
+.plate.is-entering {
+    animation: plate-in 0.5s cubic-bezier(0.2, 0.7, 0.3, 1) backwards;
+    animation-delay: calc(var(--i) * 90ms);
+}
+
+@keyframes plate-in {
+    from {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+}
+
+.plate:hover {
+    background: var(--mount-lit);
+}
+
+.plate:has(input:focus-visible) {
+    outline: 2px solid var(--signal);
+    outline-offset: 3px;
+}
+
+/* Выбранное паспарту целиком уходит в янтарь — спутать не с чем */
+.plate:has(input:checked),
+.plate:has(input:checked):hover {
+    background: var(--signal);
+}
+
+.plate__well {
+    position: relative;
+    display: block;
+    aspect-ratio: 1;
+    overflow: hidden;
+    background: var(--well);
+}
+
+/*
+ * dnmonster рисует существо одним сплошным цветом на прозрачном фоне, и цвет
+ * этот бывает почти белым: без обводки бледные существа на бумаге пропадают.
+ * Четыре тени без размытия дают силуэту ровный чернильный контур — заодно
+ * существо начинает читаться как оттиск печати.
+ */
+.plate__img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(2px 0 0 var(--ink)) drop-shadow(-2px 0 0 var(--ink))
+        drop-shadow(0 2px 0 var(--ink)) drop-shadow(0 -2px 0 var(--ink));
+}
+
+/* Отпечаток проявляется сверху вниз, но только когда есть кому это увидеть */
+.plate.is-entering .plate__img {
+    clip-path: inset(0 0 100% 0);
+    transition: clip-path 0.6s cubic-bezier(0.2, 0.7, 0.3, 1);
+    transition-delay: calc(var(--i) * 90ms + 140ms);
+}
+
+.plate.is-entering.is-ready .plate__img {
+    clip-path: inset(0 0 0 0);
+}
+
+/* Полоса засветки идёт впереди проявляющегося изображения */
+.plate__scan {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(-100%);
+    background:
+        linear-gradient(to bottom, rgba(232, 162, 51, 0.16), rgba(232, 162, 51, 0) 45%),
+        linear-gradient(to bottom, transparent calc(100% - 2px), var(--signal) calc(100% - 2px));
+}
+
+.plate.is-entering.is-ready .plate__scan {
+    animation: scan 0.62s cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
+    animation-delay: calc(var(--i) * 90ms + 140ms);
+}
+
+@keyframes scan {
+    from {
+        opacity: 1;
+        transform: translateY(-100%);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(0);
+    }
+}
+
+.plate__code {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.6rem 0.15rem 0.55rem;
+    font-family: "Martian Mono", ui-monospace, monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    color: var(--ink);
+}
+
+.plate__tick {
+    width: 0.7rem;
+    height: 0.7rem;
+    flex-shrink: 0;
+    border: 1.5px solid var(--ink-soft);
+    border-radius: 1px;
+}
+
+.plate:has(input:checked) .plate__tick {
+    background: var(--ink);
+    border-color: var(--ink);
+}
+
+/* Не дозвонились до сервиса существ */
+.plate.is-failed .plate__well {
+    display: grid;
+    place-items: center;
+    background: #f6f2e6;
+}
+
+.plate__fail {
+    padding: 1rem;
+    font-family: "Martian Mono", ui-monospace, monospace;
+    font-size: 0.6875rem;
+    line-height: 1.5;
+    text-align: center;
+    color: var(--alert);
+}
+
+.tray__error {
+    grid-column: 1 / -1;
+    padding: clamp(2rem, 5vw, 3.5rem) 1.5rem;
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    text-align: center;
+}
+
+.tray__error h2 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 800;
+    font-variation-settings: "wdth" 112;
+}
+
+.tray__error p {
+    margin: 0.6rem 0 0;
+    font-size: 0.875rem;
+    color: var(--bone-dim);
+}
+
+/* ── Строка выбора ──────────────────────────────────────────── */
+
+.pick {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-top: clamp(0.85rem, 1.6vw, 1.15rem);
+    border-top: 1px solid var(--rule);
+}
+
+.pick__state {
+    margin: 0;
+    font-family: "Martian Mono", ui-monospace, monospace;
+    font-size: 0.78rem;
+    color: var(--bone-dim);
+}
+
+.pick__code {
+    color: var(--signal);
+    font-weight: 600;
+}
+
+@media (max-width: 760px) {
+    .tray {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .pick {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    /* Кнопки на своей строке тянутся во всю ширину поля над ними */
+    .pick .btn,
+    .intake__form .btn {
+        width: 100%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .plate.is-entering {
+        animation: none;
+    }
+
+    .plate.is-entering .plate__img {
+        clip-path: none;
+        transition: none;
+    }
+
+    .plate__scan {
+        display: none;
+    }
+}

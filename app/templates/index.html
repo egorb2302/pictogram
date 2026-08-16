@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#12313a" />
+    <title>Pictogram</title>
+    <link rel="icon" type="image/svg+xml" href="/static/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=Martian+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <header class="bar">
+      <span class="wordmark">Pictogram</span>
+      <span class="bar__note">sha-256 &rarr; creature</span>
+    </header>
+
+    <main class="stage">
+      <section class="intake">
+        <h1 class="intake__title">One nickname.<br /><em>Four creatures.</em></h1>
+
+        <form class="intake__form" id="form" autocomplete="off">
+          <div class="field">
+            <label class="field__label" for="name">Nickname</label>
+            <input
+              class="field__input"
+              id="name"
+              name="name"
+              type="text"
+              maxlength="64"
+              spellcheck="false"
+              value="{{ default_name }}"
+            />
+          </div>
+          <button class="btn btn--key" type="submit" id="generate">Generate</button>
+        </form>
+
+        <p class="intake__hint">The same nickname always makes the same four.</p>
+      </section>
+
+      <section class="tray" id="tray" role="radiogroup" aria-label="Creatures"></section>
+
+      <div class="pick">
+        <p class="pick__state" id="pickState">Pick a creature to download.</p>
+        <button class="btn btn--signal" type="button" id="download" disabled>Download PNG</button>
+      </div>
+    </main>
+
+    <script src="/static/app.js" defer></script>
+  </body>
+</html>
